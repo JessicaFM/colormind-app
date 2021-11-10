@@ -1,30 +1,41 @@
 <script>
-	export let name;
+	import ColorBox from './components/ColorBox.svelte';
+
+	let url = "http://colormind.io/api/";
+	var params = {
+		model : "default",
+		input : [[44,43,44],[90,83,82],"N","N","N"]
+	};
+	const settings = {
+        method: 'POST',
+		body: JSON.stringify(params)
+    };
+
+	const fetchPalete = (async () => {
+		const response = await fetch(url, settings);
+		return await response.json();
+	})()
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.color-container {
+		display: flex;
+		flex-direction: row;
+		align-items: stretch;
+		width: 100%;
+		min-height: 100px;
+		background: #ccc;
 	}
 </style>
+
+{#await fetchPalete}
+	<p>Waiting...</p>
+{:then data}
+	<div class="color-container">
+		{#each Array.from(data.result) as color}
+			<ColorBox rgbaColorArray={color} />
+		{/each}
+	</div>
+{:catch error}
+	<p>An error occurred!</p>
+{/await}
