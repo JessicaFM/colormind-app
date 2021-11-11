@@ -9,13 +9,11 @@
 <style>
     .color-item {
         padding: 10px;
+        flex: 1;
     }
     .color-box {
-        width: 100px;
-        height: 100px;
-    }
-    .color-item>.color-box {
-        flex: 1
+        width: 100%;
+        min-height: 100px;
     }
 </style>
 

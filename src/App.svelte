@@ -1,6 +1,9 @@
 <script>
+	import { onMount } from 'svelte';
+
 	import ColorBox from './components/ColorBox.svelte';
 
+	//let palette = []
 	let url = "http://colormind.io/api/";
 	var params = {
 		model : "default",
@@ -11,10 +14,22 @@
 		body: JSON.stringify(params)
     };
 
-	const fetchPalete = (async () => {
+	function callReload() {
+		console.log("H")
+		fetchPalete =  reloadPalette();
+	}
+
+	async function reloadPalette() {
 		const response = await fetch(url, settings);
 		return await response.json();
-	})()
+	}
+
+	let palette = [];
+	onMount((async) => {
+		console.log("Loading palette")
+		palette = reloadPalette();
+	});
+
 </script>
 
 <style>
@@ -28,14 +43,22 @@
 	}
 </style>
 
-{#await fetchPalete}
-	<p>Waiting...</p>
-{:then data}
-	<div class="color-container">
-		{#each Array.from(data.result) as color}
-			<ColorBox rgbaColorArray={color} />
-		{/each}
+<div class="main">
+	{#await palette}
+		<p>Waiting...</p>
+		{:then data}
+			<div class="container">
+				<div class="color-container">
+					{#each Array.from(data.result) as color}
+						<ColorBox rgbaColorArray={color} />
+					{/each}
+				</div>
+				
+			</div>
+		{:catch error}
+			<p>An error occurred!</p>
+	{/await}
+	<div class="">
+		<button on:click={callReload}>Reload Palette</button>
 	</div>
-{:catch error}
-	<p>An error occurred!</p>
-{/await}
+</div>
