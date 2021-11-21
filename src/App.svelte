@@ -16,16 +16,18 @@
 
 	function callReload() {
 		console.log("H")
-		fetchPalete =  reloadPalette();
+		reloadPalette();
 	}
 
 	async function reloadPalette() {
 		const response = await fetch(url, settings);
+		console.log("reloading palette")
 		return await response.json();
 	}
 
 	let palette = [];
 	onMount((async) => {
+		console.log("onMount")
 		console.log("Loading palette")
 		palette = reloadPalette();
 	});
@@ -33,27 +35,37 @@
 </script>
 
 <style>
+	.body {
+		min-height: 120px;
+	}
 	.color-container {
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
 		width: 100%;
-		min-height: 100px;
+		min-height: 120px;
 		background: #ccc;
 	}
 </style>
 
 <div class="main">
 	{#await palette}
-		<p>Waiting...</p>
+		<div class="body">
+			<h1>Waiting...</h1>
+		</div>
 		{:then data}
-			<div class="container">
-				<div class="color-container">
-					{#each Array.from(data.result) as color}
-						<ColorBox rgbaColorArray={color} />
-					{/each}
+			<div class="body container">
+				<div class="color-container"> 
+					{#if data.result}
+						<div class="row w-100">
+							{#each data.result as color}
+								<div class="col">
+									<ColorBox rgbaColorArray={color} />
+								</div>
+							{/each}
+						</div>			
+					{/if}
 				</div>
-				
 			</div>
 		{:catch error}
 			<p>An error occurred!</p>
