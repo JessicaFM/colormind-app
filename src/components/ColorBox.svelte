@@ -1,12 +1,8 @@
 <script>
     export let rgbaColorArray;
-    let rgbaColor = "red";
-
-    console.log(rgbaColorArray.toString());
-    console.log(rgbaColor);
 </script>
 
-<style>
+<style lang="scss">    
     .color-item {
         padding: 10px;
         flex: 1;
