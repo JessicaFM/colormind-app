@@ -14,6 +14,9 @@
 		min-height: 120px;
 		background: #ccc;
 	}
+	.main {
+		padding-top: 50px;
+	}
 </style>
 <div class="main">
 	<div class="container">

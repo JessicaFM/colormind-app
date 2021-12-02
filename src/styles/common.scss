@@ -1,3 +1,18 @@
 body {
     background-color: #001219 !important;
 }
+.section-palette {
+    background-color: #495057 !important;
+    padding: 10px;
+    .random-palette-body {
+        .btn {
+            margin-right: 15px;
+        }
+        .section-title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+    }
+}
